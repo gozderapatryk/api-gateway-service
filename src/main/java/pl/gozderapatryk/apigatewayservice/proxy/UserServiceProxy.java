@@ -3,6 +3,7 @@ package pl.gozderapatryk.apigatewayservice.proxy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import pl.gozderapatryk.apigatewayservice.dto.GetUserDto;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -21,5 +22,13 @@ public class UserServiceProxy {
                 .uri("/{id}", id)
                 .retrieve()
                 .bodyToMono(GetUserDto.class);
+    }
+
+    public Flux<GetUserDto> findAll() {
+        return webClient
+                .get()
+                .uri("/")
+                .retrieve()
+                .bodyToFlux(GetUserDto.class);
     }
 }

@@ -8,7 +8,10 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import pl.gozderapatryk.apigatewayservice.proxy.UserServiceProxy;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import static org.springframework.http.ResponseEntity.status;
 
 @Component
 @RequiredArgsConstructor
@@ -25,5 +28,12 @@ public class RoutingHandlers {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromValue(getUserDto))
                 );
+    }
+
+    public Mono<ServerResponse> findAll(ServerRequest serverRequest) {
+        return ServerResponse.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(userServiceProxy
+                        .findAll()));
     }
 }
